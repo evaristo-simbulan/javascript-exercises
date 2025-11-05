@@ -1,29 +1,17 @@
 const findTheOldest = function (arr) {
-    return arr.reduce((current, item) => {
-
-        let itemYOD;
-        let currentYOD;
-        if ("yearOfDeath" in item) {
-            itemYOD = item.yearOfDeath;
-        } else {
-            itemYOD = new Date().getFullYear();
-        }
-
-        if ("yearOfDeath" in current) {
-            currentYOD = current.yearOfDeath;
-        } else {
-            currentYOD = new Date().getFullYear();
-        }
-
-        let itemAge = itemYOD - item.yearOfBirth;
-        let currentAge = currentYOD - current.yearOfBirth;
-
-        if (itemAge > currentAge) {
-            return item;
-        }
-        return current;
+    return arr.reduce((oldest, current) => {
+        const oldestAge = getAge(oldest.yearOfBirth, oldest.yearOfDeath);
+        const currentAge = getAge(current.yearOfBirth, current.yearOfDeath);
+        return currentAge > oldestAge ? current : oldest;
     });
 };
+
+function getAge(birth, death) {
+    if (!death) {
+        death = new Date().getFullYear();
+    }
+    return death - birth;
+}
 
 // Do not edit below this line
 module.exports = findTheOldest;
